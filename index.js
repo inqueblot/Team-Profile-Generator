@@ -1,5 +1,9 @@
 const inquirer = require('inquirer');
 const pageTemplate = require('./src/page-template');
+const Employee = require('./lib/Employee')
+const Intern = require('./lib/Intern')
+const Engineer = require('./lib/Engineer')
+const Manager = require('./lib/Manager')
 
 let managerQuestions = [
     {
@@ -7,15 +11,15 @@ let managerQuestions = [
         message: 'Please enter your name.'
     },
     {
-        name: 'empID',
+        name: 'id',
         message: 'Please enter your Employee ID'
     },
     {
-        name: 'emailAdd',
+        name: 'email',
         message: 'Please enter your email address.'
     },
     {
-        name: 'officeNum',
+        name: 'officeNumber',
         message: 'Please enter your office number.'
     },
     {
@@ -42,6 +46,8 @@ let managerQuestions = [
     }
 ]
 
-inquirer.prompt(managerQuestions).then((answers) => {
-    console.log(answers)
+inquirer.prompt(managerQuestions).then(({ name, id, email, officeNumber }) => {
+    const manager = new Manager(name, id, email, officeNumber)
+    console.log(manager)
+    console.log(manager.getRole())
 })
