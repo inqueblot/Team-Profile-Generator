@@ -10,10 +10,11 @@ const { managerQuestArr, internQuestArr, engineerQuestArr } = require('./lib/Que
 // console.log(managerQuestions)
 // console.log(internQuestions)
 
-
+const team = [];
 
 inquirer.prompt(managerQuestArr).then(({ name, id, email, officeNumber, moreTeam }) => {
     const manager = new Manager(name, id, email, officeNumber)
+    team.push(manager);
     if (moreTeam === 'intern') {
         internQuestions();
     };
@@ -28,7 +29,8 @@ inquirer.prompt(managerQuestArr).then(({ name, id, email, officeNumber, moreTeam
 const internQuestions = function () {
     inquirer.prompt(internQuestArr).then(({ name, id, email, school, moreTeam }) => {
         const intern = new Intern(name, id, email, school);
-        console.log(intern);
+        team.push(intern);
+        console.log(team);
         if (moreTeam === 'intern') {
             internQuestions();
         };
@@ -49,4 +51,4 @@ const engineerQuestions = function () {
             engineerQuestions()
         }
     })
-}
+};
