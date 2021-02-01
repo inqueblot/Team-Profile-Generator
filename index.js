@@ -15,15 +15,38 @@ const { managerQuestArr, internQuestArr, engineerQuestArr } = require('./lib/Que
 inquirer.prompt(managerQuestArr).then(({ name, id, email, officeNumber, moreTeam }) => {
     const manager = new Manager(name, id, email, officeNumber)
     if (moreTeam === 'intern') {
-        inquirer.prompt(internQuestArr).then(({ name, id, email, school, moreTeam }) => {
-            const intern = new Intern(name, id, email, school);
-            console.log(intern);
-        })
+        internQuestions();
     };
     if (moreTeam === 'engineer') {
-        // engineerQuestions()
+        engineerQuestions()
     }
-    console.log(manager)
-    console.log(manager.getRole())
-    console.log(moreTeam)
-})
+    // console.log(manager)
+    // console.log(manager.getRole())
+    // console.log(moreTeam)
+});
+
+const internQuestions = function () {
+    inquirer.prompt(internQuestArr).then(({ name, id, email, school, moreTeam }) => {
+        const intern = new Intern(name, id, email, school);
+        console.log(intern);
+        if (moreTeam === 'intern') {
+            internQuestions();
+        };
+        if (moreTeam === 'engineer') {
+            engineerQuestions()
+        }
+    })
+};
+
+const engineerQuestions = function () {
+    inquirer.prompt(engineerQuestArr).then(({ name, id, email, gitHubUser, moreTeam }) => {
+        const engineer = new Engineer(name, id, email, gitHubUser);
+        console.log(engineer);
+        if (moreTeam === 'intern') {
+            internQuestions();
+        };
+        if (moreTeam === 'engineer') {
+            engineerQuestions()
+        }
+    })
+}
