@@ -16,7 +16,9 @@
 ## Description
 ---
 
-This app will gather employee information via a command line and then generate cards in an easily legible HTML format. 
+This app will gather employee information via a command line and then generate cards in an easily legible HTML format.
+
+![example of application](https://github.com/inqueblot/Team-Profile-Generator/tree/main/Assets/Untitled_Jan_26,_2021_11_48_PM.gif?raw=true)
 
 ## Installation
 Running this project locally:
