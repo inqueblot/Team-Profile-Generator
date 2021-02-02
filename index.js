@@ -1,10 +1,15 @@
 const inquirer = require('inquirer');
-const pageTemplate = require('./src/page-template');
+const generateTeam = require('./src/page-template');
 const Employee = require('./lib/Employee')
 const Intern = require('./lib/Intern')
 const Engineer = require('./lib/Engineer')
 const Manager = require('./lib/Manager')
 const { managerQuestArr, internQuestArr, engineerQuestArr } = require('./lib/Questions')
+const fs = require('fs')
+const path = require('path')
+const outputDir = path.resolve(__dirname, "dir")
+const folderPath = path.join(outputDir, 'employee_roster.html')
+
 
 // console.log(Manager)
 // console.log(managerQuestions)
@@ -17,9 +22,12 @@ inquirer.prompt(managerQuestArr).then(({ name, id, email, officeNumber, moreTeam
     team.push(manager);
     if (moreTeam === 'intern') {
         internQuestions();
-    };
-    if (moreTeam === 'engineer') {
+    }
+    else if (moreTeam === 'engineer') {
         engineerQuestions()
+    }
+    else {
+        buildTeam()
     }
     // console.log(manager)
     // console.log(manager.getRole())
@@ -33,22 +41,36 @@ const internQuestions = function () {
         console.log(team);
         if (moreTeam === 'intern') {
             internQuestions();
-        };
-        if (moreTeam === 'engineer') {
+        }
+        else if (moreTeam === 'engineer') {
             engineerQuestions()
         }
+        else {
+            buildTeam();
+        };
     })
 };
 
 const engineerQuestions = function () {
     inquirer.prompt(engineerQuestArr).then(({ name, id, email, gitHubUser, moreTeam }) => {
         const engineer = new Engineer(name, id, email, gitHubUser);
-        console.log(engineer);
+
+        team.push(engineer);
         if (moreTeam === 'intern') {
             internQuestions();
-        };
-        if (moreTeam === 'engineer') {
+        }
+        else if (moreTeam === 'engineer') {
             engineerQuestions()
         }
+        else {
+            buildTeam();
+        };
     })
 };
+
+const buildTeam = function () {
+    if (!fs.existsSync(outputDir)) {
+        fs.mkdirSync(outputDir)
+    };
+    fs.writeFileSync(folderPath, generateTeam(team), 'utf8')
+}
